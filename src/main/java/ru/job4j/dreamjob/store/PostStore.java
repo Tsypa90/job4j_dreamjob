@@ -1,6 +1,5 @@
 package ru.job4j.dreamjob.store;
 
-import jdk.jfr.Threshold;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import ru.job4j.dreamjob.model.Post;
@@ -25,7 +24,17 @@ public class PostStore {
     }
 
     public void add(Post post) {
-        posts.putIfAbsent(id.getAndIncrement(), post);
+        post.setCreated(LocalDate.now());
+        post.setId(id.getAndIncrement());
+        posts.putIfAbsent(post.getId(), post);
+    }
+
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
+    public void update(Post post) {
+        posts.put(post.getId(), post);
     }
 
     public Collection<Post> findAll() {
