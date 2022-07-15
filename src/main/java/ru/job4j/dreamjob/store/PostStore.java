@@ -1,7 +1,5 @@
 package ru.job4j.dreamjob.store;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
 import ru.job4j.dreamjob.model.Post;
 
 import java.time.LocalDate;
