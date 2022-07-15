@@ -1,5 +1,6 @@
 package ru.job4j.dreamjob.controller;
 
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +14,17 @@ import ru.job4j.dreamjob.store.CandidateStore;
 import java.time.LocalDate;
 
 @Controller
+@ThreadSafe
 public class CandidateController {
-    private final CandidateStore store = CandidateStore.getInst();
+    private final CandidateStore service;
+
+    public CandidateController(CandidateStore service) {
+        this.service = service;
+    }
 
     @GetMapping("/candidates")
     public String candidates(Model model) {
-        model.addAttribute("candidates", store.findAll());
+        model.addAttribute("candidates", service.findAll());
         return "candidates";
     }
 
@@ -29,17 +35,17 @@ public class CandidateController {
     }
     @PostMapping("/createCandidate")
     public String createCandidate(@ModelAttribute Candidate candidate) {
-        store.add(candidate);
+        service.add(candidate);
         return "redirect:/candidates";
     }
     @GetMapping("/updateCandidate/{candidateId}")
     public String updateCandidate(Model model, @PathVariable("candidateId") int id) {
-        model.addAttribute("candidate", store.findById(id));
+        model.addAttribute("candidate", service.findById(id));
         return "updateCandidate";
     }
     @PostMapping("/updateCandidate")
     public String updateCandidate(@ModelAttribute Candidate candidate) {
-        store.update(candidate);
+        service.update(candidate);
         return "redirect:/candidates";
     }
 }
