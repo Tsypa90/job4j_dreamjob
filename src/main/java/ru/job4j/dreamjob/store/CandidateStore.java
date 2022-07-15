@@ -1,7 +1,6 @@
 package ru.job4j.dreamjob.store;
 
 import ru.job4j.dreamjob.model.Candidate;
-import ru.job4j.dreamjob.model.Post;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -32,7 +31,7 @@ public class CandidateStore {
     }
 
     public void update(Candidate candidate) {
-        posts.put(candidate.getId(), candidate);
+        posts.replace(candidate.getId(), candidate);
     }
 
     public Candidate findById(int id) {
