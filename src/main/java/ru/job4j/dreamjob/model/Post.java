@@ -14,6 +14,8 @@ public class Post implements Serializable {
 
     private boolean visible;
 
+    private City city;
+
     public Post() {
     }
 
@@ -54,6 +56,14 @@ public class Post implements Serializable {
 
     public void setCreated(LocalDate created) {
         this.created = created;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public boolean isVisible() {
