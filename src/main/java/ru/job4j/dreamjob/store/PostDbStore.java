@@ -80,7 +80,6 @@ public class PostDbStore {
             ps.setString(2, post.getDescription());
             ps.setInt(3, post.getCity().getId());
             ps.setInt(4, post.getId());
-//            ps.setBoolean(5, post.isVisible());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
