@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.model.Candidate;
-import ru.job4j.dreamjob.store.CandidateStore;
+import ru.job4j.dreamjob.service.CandidateService;
+
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -20,9 +21,9 @@ import java.time.LocalDate;
 @Controller
 @ThreadSafe
 public class CandidateController {
-    private final CandidateStore service;
+    private final CandidateService service;
 
-    public CandidateController(CandidateStore service) {
+    public CandidateController(CandidateService service) {
         this.service = service;
     }
 
