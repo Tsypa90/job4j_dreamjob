@@ -39,7 +39,8 @@ public class PostController {
         return "updatePost";
     }
     @PostMapping("/updatePost")
-    public String updatePost(@ModelAttribute Post post) {
+    public String updatePost(@ModelAttribute Post post, @RequestParam("city.id") int id) {
+        post.setCity(cityService.findById(id));
         service.update(post);
         return "redirect:/posts";
     }
