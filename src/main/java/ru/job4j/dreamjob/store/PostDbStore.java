@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,13 +72,14 @@ public class PostDbStore {
     public void update(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =
-                     cn.prepareStatement("UPDATE post SET name = ?, description = ?, city_id = ? where id = ?",
+                     cn.prepareStatement("UPDATE post SET name = ?, description = ?, city_id = ?, visible = ? where id = ?",
                              PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setInt(3, post.getCity().getId());
-            ps.setInt(4, post.getId());
+            ps.setBoolean(4, post.isVisible());
+            ps.setInt(5, post.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
