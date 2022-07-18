@@ -23,4 +23,15 @@ public class PostDbStoreTest {
         assertThat(postInDb.getName(), is(post.getName()));
     }
 
+    @Test
+    public void whenUpdatePost() {
+        PostDbStore store = new PostDbStore(new Main().loadPool());
+        Post post = new Post(0, "Java", "Java", LocalDate.now());
+        post.setCity(city.findById(1));
+        post.setVisible(true);
+        store.add(post);
+        post.setName("Java Developer");
+        store.update(post);
+        assertThat(store.findById(post.getId()).getName(), is("Java Developer"));
+    }
 }
