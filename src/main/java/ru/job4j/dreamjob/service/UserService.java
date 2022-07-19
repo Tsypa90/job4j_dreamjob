@@ -20,6 +20,6 @@ public class UserService {
     }
 
     public Optional<User> findUserByName(String name) {
-        return Optional.ofNullable(store.findUserByName(name));
+        return store.findUserByName(name);
     }
 }

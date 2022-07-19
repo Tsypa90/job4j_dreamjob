@@ -38,18 +38,18 @@ public class UserDbStore {
         return user.getId() == 0 ? Optional.empty() : Optional.of(user);
     }
 
-    public User findUserByName(String name) {
+    public Optional<User> findUserByName(String name) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("select id, name from users where name like ?")) {
             ps.setString(1, name);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new User(rs.getInt("id"), rs.getString("name"));
+                    return Optional.of(new User(rs.getInt("id"), rs.getString("name")));
                 }
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
-        return null;
+        return Optional.empty();
     }
 }
