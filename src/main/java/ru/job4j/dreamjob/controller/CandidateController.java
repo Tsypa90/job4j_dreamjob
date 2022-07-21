@@ -29,27 +29,26 @@ public class CandidateController {
         this.service = service;
     }
 
-    @GetMapping("/candidates")
-    public String candidates(Model model, HttpSession session) {
-        model.addAttribute("candidates", service.findAll());
+    private static void addUserToSession(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();
             user.setName("Гость");
         }
         model.addAttribute("user", user);
+    }
+
+    @GetMapping("/candidates")
+    public String candidates(Model model, HttpSession session) {
+        model.addAttribute("candidates", service.findAll());
+        addUserToSession(model, session);
         return "candidates";
     }
 
     @GetMapping("/addCandidate")
     public String addCandidate(Model model, HttpSession session) {
         model.addAttribute("candidate", new Candidate(0, "name", "desc", LocalDate.now()));
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        addUserToSession(model, session);
         return "addCandidate";
     }
     @PostMapping("/createCandidate")
@@ -61,12 +60,7 @@ public class CandidateController {
     @GetMapping("/updateCandidate/{candidateId}")
     public String updateCandidate(Model model, @PathVariable("candidateId") int id, HttpSession session) {
         model.addAttribute("candidate", service.findById(id));
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        addUserToSession(model, session);
         return "updateCandidate";
     }
     @PostMapping("/updateCandidate")

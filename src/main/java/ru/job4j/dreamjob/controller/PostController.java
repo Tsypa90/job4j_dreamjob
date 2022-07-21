@@ -23,15 +23,18 @@ public class PostController {
         this.cityService = cityService;
     }
 
-
-    @GetMapping("/posts")
-    public String posts(Model model, HttpSession session) {
+    private static void addUserToSession(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();
             user.setName("Гость");
         }
         model.addAttribute("user", user);
+    }
+
+    @GetMapping("/posts")
+    public String posts(Model model, HttpSession session) {
+        addUserToSession(model, session);
         model.addAttribute("posts", service.findAll());
         return "posts";
     }
@@ -39,24 +42,14 @@ public class PostController {
     @GetMapping("/addPost")
     public String addPost(Model model, HttpSession session) {
         model.addAttribute("cities", cityService.getAllCities());
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        addUserToSession(model, session);
         return "addPost";
     }
     @GetMapping("/updatePost/{postId}")
     public String updatePost(Model model, @PathVariable("postId") int id, HttpSession session) {
         model.addAttribute("post", service.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        addUserToSession(model, session);
         return "updatePost";
     }
     @PostMapping("/updatePost")
